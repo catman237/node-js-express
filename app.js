@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan')
 const path = require('path')
+const PORT = process.env.PORT || 3000
 
 const app = express();
 
@@ -15,10 +16,13 @@ app.use(morgan('tiny'));
 //this is middlewere thats built in 
 app.use(express.static(path.join(__dirname, '/public/')));
 
+app.set('views', './src/views')
+app.set('view engine', 'ejs')
+
 app.get('/', (req, res) => {
-    res.send('Hello from my app')
+    res.render('index', {title: 'Welcome to Globomantix', data: ['first', 'second', 'third'], grades: ['v10', 'v11', 'v12'] })
 })
 
-app.listen(3000, () => {
-    debug(`listening on port 3000 ${chalk.green('3000')}`)
+app.listen(PORT, () => {
+    debug(`listening on port ${chalk.green(PORT)}`)
 })
